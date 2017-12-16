@@ -2,8 +2,6 @@ package pagsego
 
 import (
 	"bytes"
-	"code.google.com/p/go-charset/charset"
-	_ "code.google.com/p/go-charset/data"
 	"crypto/tls"
 	"encoding/xml"
 	"fmt"
@@ -13,6 +11,9 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/paulrosania/go-charset/charset"
+	_ "github.com/paulrosania/go-charset/data"
 )
 
 const (
@@ -412,7 +413,8 @@ func FetchTransactionInfo(sellerToken, sellerEmail, notificationCode string) (re
 	}
 	client := &http.Client{Transport: tr}
 
-	transactionsURL := fmt.Sprintf("%s/%s?email=%s&token=%s&charset=%s", TransactionsURL, notificationCode, sellerEmail, sellerToken, "UTF-8")
+	transactionsURL := fmt.Sprintf("%s/%s?email=%s&token=%s", TransactionsURL, notificationCode, sellerEmail, sellerToken)
+	//&charset=%s  , "UTF-8"
 	resp, err := client.Get(transactionsURL)
 
 	if err != nil {
